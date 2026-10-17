@@ -1,6 +1,6 @@
-# Filip Kalistenija
+# Filistenija
 
-Digitalni alat za vođene kalisteničke treninge, praćenje napretka i predstavljanje Filipovih programa.
+Filip + kalistenija. Digitalni alat za vođene kalisteničke treninge, praćenje napretka i predstavljanje Filipovih programa.
 
 ## Lokalno pokretanje
 

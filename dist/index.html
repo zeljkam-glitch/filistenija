@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="hr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Filip Kalistenija Klub — vođeni program za prvi pravilni zgib.">
+  <title>Filip Kalistenija Klub</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Glavna navigacija">
+      <a class="brand" href="#dashboard" aria-label="Filip Kalistenija početna"><span class="brand-word">filip<span>.</span></span><span class="brand-mark">FK</span></a>
+
+      <nav id="nav">
+        <button class="nav-item active" data-view="dashboard" aria-label="Pregled"><i class="ph-fill ph-house"></i><span>Pregled</span></button>
+        <button class="nav-item" data-view="program" aria-label="Program"><i class="ph ph-barbell"></i><span>Program</span></button>
+        <button class="nav-item" data-view="progress" aria-label="Napredak"><i class="ph ph-chart-bar"></i><span>Napredak</span></button>
+        <button class="nav-item" data-view="feedback" aria-label="Video feedback"><i class="ph ph-chat-circle-dots"></i><span>Feedback</span></button>
+        <button class="nav-item coach-only" data-view="clients" aria-label="Polaznici"><i class="ph ph-users"></i><span>Polaznici</span></button>
+        <button class="nav-item coach-only" data-view="applications" aria-label="Prijave"><i class="ph ph-user-plus"></i><span>Prijave</span></button>
+        <button class="nav-item" data-view="offer" aria-label="O programu"><i class="ph ph-info"></i><span>Program</span></button>
+      </nav>
+
+      <div class="role-switch">
+        <span>Prikaz</span>
+        <div class="segmented" role="group" aria-label="Odabir prikaza">
+          <button data-role="member" class="active">Polaznik</button>
+          <button data-role="coach">Filip</button>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <button id="menuButton" class="menu-button" aria-label="Otvori izbornik"><i class="ph ph-list"></i></button>
+        <div class="page-heading"><p class="eyebrow">OSNIVAČKA GRUPA 01</p><h1 id="pageTitle">Pregled</h1></div>
+        <label class="search-box"><i class="ph ph-magnifying-glass"></i><input type="search" placeholder="Pretraži treninge"></label>
+        <button class="notification" aria-label="Obavijesti"><i class="ph ph-bell"></i><span></span></button>
+        <button class="avatar" id="profileButton" aria-label="Profil korisnika">FM</button>
+      </header>
+
+      <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+      <section class="view active" id="dashboard" aria-labelledby="pageTitle">
+        <div class="dashboard-grid">
+          <article class="dash-card activity-card">
+            <div class="dash-head"><div><p class="card-label">DANAŠNJA AKTIVNOST</p><h2>Tvoj tjedan</h2></div><button class="coral-button" data-jump="program" aria-label="Dodaj trening"><i class="ph ph-plus"></i></button></div>
+            <div class="activity-chart-wrap"><canvas id="activityChart" aria-label="Graf tjedne aktivnosti"></canvas><span class="chart-badge"><strong id="chartWorkoutCount">0</strong>/3</span></div>
+            <div class="day-strip" aria-label="Dani treninga"><div><span>P</span><i class="ph ph-check"></i></div><div><span>U</span><i class="ph ph-check"></i></div><div><span>S</span><i class="ph ph-barbell"></i></div><div class="current"><span>Č</span><i class="ph-fill ph-person-simple-run"></i></div><div><span>P</span><i class="ph ph-minus"></i></div><div><span>S</span><i class="ph ph-barbell"></i></div><div><span>N</span><i class="ph ph-minus"></i></div></div>
+            <div class="upcoming-head"><span>SLJEDEĆI TRENINZI</span><button data-jump="program">Vidi sve</button></div>
+            <div id="weeklyChecklist" class="checklist"></div>
+          </article>
+
+          <article class="dash-card progress-card">
+            <p class="card-label">NAPREDAK PROGRAMA</p>
+            <div class="progress-copy"><strong id="progressPercent">0%</strong><span>tjednog plana<br>je završeno</span></div>
+            <canvas id="bubbleChart" aria-label="Vizualni prikaz završenih treninga"></canvas>
+          </article>
+
+          <article class="dash-card strength-card">
+            <div class="dash-head"><div><p class="card-label">SNAGA POVLAČENJA</p><h2>Zadnje mjerenje</h2></div><span class="goal-label">Cilj<br><strong>1 zgib</strong></span></div>
+            <div class="donut-wrap"><canvas id="strengthChart" aria-label="Napredak prema prvom zgibu"></canvas><div><strong id="metricPullups">0</strong><span>zgibova</span></div></div>
+            <div class="strength-legend"><span><i class="yellow-dot"></i>Treninzi <strong id="metricWorkouts">0/18</strong></span><span><i class="coral-dot"></i>Redovitost <strong id="metricConsistency">0%</strong></span></div>
+          </article>
+
+          <article class="dash-card volume-card">
+            <div class="dash-head"><p class="card-label">TJEDNI VOLUMEN</p><span>Cilj<br><strong>180 min</strong></span></div>
+            <strong><span id="minutesDone">0</span><small> minuta</small></strong>
+            <div class="volume-track"><i id="volumeFill"></i></div>
+            <p>Tri kratka treninga i jedan check in s Filipom.</p>
+          </article>
+
+          <article class="challenge-card">
+            <img src="assets/filip-pullup-hero.png" alt="Kalisteničar izvodi zgib na vanjskoj šipci">
+            <div class="challenge-overlay"><p class="card-label">TJEDAN <span id="heroWeek">1</span> OD 6</p><h2>Dnevni izazov<br>Mirna lopatica</h2><button class="play-button" data-jump="program" aria-label="Otvori trening"><i class="ph-fill ph-play"></i></button></div>
+            <div class="challenge-progress"><strong>1</strong><span>/3 treninga</span></div>
+            <button class="corner-arrow" data-jump="program" aria-label="Otvori program"><i class="ph ph-arrow-up-right"></i></button>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="program">
+        <div class="section-intro">
+          <div><p class="eyebrow">PRVI ZGIB S FILIPOM</p><h2>Šest tjedana do jačeg povlačenja</h2></div>
+          <p>Svaki tjedan ima jedan tehnički fokus i tri treninga. Označi trening završenim tek kada zapišeš rezultat.</p>
+        </div>
+        <div id="weekTabs" class="week-tabs" role="tablist"></div>
+        <div id="weekContent"></div>
+      </section>
+
+      <section class="view" id="progress">
+        <div class="section-intro">
+          <div><p class="eyebrow">MJERENJE</p><h2>Brojevi koji pokazuju što se mijenja</h2></div>
+          <button class="secondary" id="addMeasurementButton">Dodaj mjerenje</button>
+        </div>
+        <div class="progress-layout">
+          <article class="panel chart-panel">
+            <div class="panel-head"><div><p class="eyebrow">ZGIBOVI</p><h3>Napredak po tjednima</h3></div></div>
+            <div id="barChart" class="bar-chart" aria-label="Graf napretka"></div>
+          </article>
+          <article class="panel">
+            <p class="eyebrow">DODAJ MJERENJE</p><h3>Trenutno stanje</h3>
+            <form id="measurementForm" class="form-stack">
+              <label>Tjedan<select id="measureWeek"></select></label>
+              <label>Pravilni zgibovi<input id="measurePullups" type="number" min="0" max="50" value="0" required></label>
+              <label>Aktivni vis u sekundama<input id="measureHang" type="number" min="0" max="300" value="0" required></label>
+              <label>Bilješka<textarea id="measureNote" rows="3" placeholder="Što je danas bilo bolje"></textarea></label>
+              <button class="primary" type="submit">Spremi mjerenje</button>
+            </form>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="feedback">
+        <div class="section-intro">
+          <div><p class="eyebrow">VIDEO FEEDBACK</p><h2>Pošalji jedan pokušaj koji vrijedi analizirati</h2></div>
+          <p>Snimka sa strane, cijelo tijelo u kadru i bez montaže. Filip odgovara jednom tehničkom korekcijom i sljedećim korakom.</p>
+        </div>
+        <div class="split-grid feedback-grid">
+          <article class="panel">
+            <form id="feedbackForm" class="form-stack">
+              <label>Vježba<select id="feedbackExercise"><option>Zgib</option><option>Negativni zgib</option><option>Aktivni vis</option><option>Veslanje</option></select></label>
+              <label>Poveznica na video<input id="feedbackUrl" type="url" placeholder="https://..." required></label>
+              <label>Što želiš da Filip pogleda<textarea id="feedbackQuestion" rows="4" placeholder="Primjer: gubim li položaj lopatice u gornjoj polovici"></textarea></label>
+              <button class="primary" type="submit">Pošalji Filipu</button>
+            </form>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><p class="eyebrow">POSLANO</p><h3>Tvoje analize</h3></div></div>
+            <div id="feedbackList" class="feed-list"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="clients">
+        <div class="section-intro"><div><p class="eyebrow">COACHING</p><h2>Polaznici osnivačke grupe</h2></div><p>Jedan pogled na angažman, napredak i osobe kojima treba Filipova pažnja.</p></div>
+        <div id="coachMetrics" class="metric-grid"></div>
+        <article class="panel table-panel"><div id="clientsTable" class="data-table"></div></article>
+      </section>
+
+      <section class="view" id="applications">
+        <div class="section-intro"><div><p class="eyebrow">ULAZ U PROGRAM</p><h2>Prijave kandidata</h2></div><button class="secondary" id="openApplication">Nova probna prijava</button></div>
+        <article class="panel"><div id="applicationsList" class="application-list"></div></article>
+      </section>
+
+      <section class="view" id="offer">
+        <div class="offer-hero">
+          <p class="eyebrow">PRVI ZGIB S FILIPOM</p>
+          <h2>Jasan plan za ljude koji više ne žele nagađati</h2>
+          <p>Šest tjedana strukturiranog treninga, tjedni video feedback i mala grupa koja drži ritam.</p>
+          <div><strong>79 €</strong><span>osnivačka cijena za cijeli pilot</span></div>
+          <button class="primary" id="offerApply">Prijavi interes</button>
+        </div>
+        <div class="offer-grid">
+          <article><span>01</span><h3>Početna procjena</h3><p>Kratki upitnik i početna snimka određuju tvoju stvarnu startnu točku.</p></article>
+          <article><span>02</span><h3>Tri treninga tjedno</h3><p>Jasan plan bez suvišnih vježbi, prilagođen početnoj razini.</p></article>
+          <article><span>03</span><h3>Filipov feedback</h3><p>Jedna analiza snimke tjedno s konkretnom korekcijom za sljedeći pokušaj.</p></article>
+          <article><span>04</span><h3>Završno mjerenje</h3><p>U šestom tjednu uspoređujemo početnu i završnu izvedbu.</p></article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="applicationDialog">
+    <form id="applicationForm" method="dialog" class="dialog-card">
+      <div class="dialog-head"><div><p class="eyebrow">OSNIVAČKA GRUPA</p><h2>Prijava interesa</h2></div><button class="icon-button" value="cancel" aria-label="Zatvori">×</button></div>
+      <div class="form-grid">
+        <label>Ime<input id="appName" required placeholder="Tvoje ime"></label>
+        <label>Dob<input id="appAge" type="number" min="12" max="99" required></label>
+        <label class="wide">Trenutni broj pravilnih zgibova<input id="appPullups" type="number" min="0" max="50" required value="0"></label>
+        <label class="wide">Što si dosad pokušao<textarea id="appTried" rows="3"></textarea></label>
+        <label class="wide">Imaš li bol ili ozljedu<select id="appPain"><option value="ne">Ne</option><option value="da">Da</option></select></label>
+      </div>
+      <p class="safety-note">Ako postoji bol ili ozljeda, prije sudjelovanja potrebna je odgovarajuća stručna procjena.</p>
+      <button class="primary" type="submit" value="submit">Pošalji prijavu</button>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
